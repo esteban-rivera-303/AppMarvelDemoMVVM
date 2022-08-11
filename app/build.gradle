@@ -22,7 +22,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "PRIVATE_KEY", "\"${privateKey}\"")
+
+        }
         release {
+            buildConfigField("String", "PRIVATE_KEY", "\"${privateKey}\"")
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -41,7 +47,6 @@ android {
 
 dependencies {
 
-    //implementation 'androidx.core:core-ktx:1.8.0' // 1.7.0
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -65,12 +70,10 @@ dependencies {
     //ViewModel and livedata
     implementation lifecycleLib
 
-    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
-    //implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
-
+    // Coroutines
     implementation kotlinCoroutinesLib
     implementation kotlinCoroutinesCoreLib
-    
+
     // Hilt
     implementation hiltLib
     kapt hiltKaptLib

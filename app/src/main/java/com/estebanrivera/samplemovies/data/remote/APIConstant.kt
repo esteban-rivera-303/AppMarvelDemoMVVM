@@ -1,15 +1,16 @@
 package com.estebanrivera.samplemovies.data.remote
 
+import com.estebanrivera.samplemovies.BuildConfig
+
 object APIConstants {
 
-    //const val BASE_API_URL = "https://developer.marvel.com/$VERSION"
     const val BASE_API_URL = "https://gateway.marvel.com/v1/public/"
 
     const val GET_ALL_CHARACTERS = "characters"
     const val GET_DETAILS_CHARACTER = "characters/{id}"
 
     const val PUBLIC_KEY = "4212fa6697aaa3ea248b31378a2dca65"
-    const val PRIVATE_KEY = "052a3ad782f7708817a6b0e0f30812bcf195b063"
+    const val PRIVATE_KEY = BuildConfig.PRIVATE_KEY
 
     //Base Response Server
     const val KEY_CODE = "code"
@@ -26,24 +27,19 @@ object APIConstants {
     const val KEY_NAME = "name"
     const val KEY_IMAGE = "image"
     const val KEY_DESCRIPTION = "description"
-    const val KEY_MODIFIED = "modified"
     const val KEY_RESOURCE_URI = "resourceURI"
-    const val KEY_URLS = "urls"
     const val KEY_THUMBNAIL = "thumbnail"
     const val KEY_COMICS = "comics"
     const val KEY_STORIES = "stories"
     const val KEY_EVENTS = "events"
     const val KEY_SERIES = "series"
 
-    //URL
-    const val KEY_URL_TYPE = "type"
-    const val KEY_URL_IMAGE = "url"
 
     // IMAGE
     const val KEY_IMAGE_EXTENSION = "extension"
     const val KEY_IMAGE_PATH = "path"
 
-    //
+
     const val KEY_AVAILABLE = "available"
     const val KEY_COLLECTIONS_URI = "collectionURI"
     const val KEY_RETURNED = "returned"
