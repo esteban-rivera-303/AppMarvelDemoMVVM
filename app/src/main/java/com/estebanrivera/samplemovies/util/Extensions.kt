@@ -1,9 +1,16 @@
 package com.estebanrivera.samplemovies.util
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemote
 import java.math.BigInteger
 import java.security.MessageDigest
 
+
+inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit) {
+    startActivity(Intent(this, T::class.java).apply(body))
+}
 
 fun CharacterDataSourceRemote.toHash(
     timeStamp: String,
@@ -17,7 +24,7 @@ fun CharacterDataSourceRemote.toHash(
     while (md5.length < 32) {
         md5 = "0$md5"
     }
-    return  md5
+    return md5
 }
 
 fun CharacterDataSourceRemote.getTimestamp(): String =

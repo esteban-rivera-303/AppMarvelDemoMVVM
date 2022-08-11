@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SampleMovies</string>
+    <string name="error_generic">Lo sentimos no logramos cargar el contenido</string>
 </resources>

@@ -3,7 +3,10 @@ plugins {
     id 'com.android.application' version '7.2.1' apply false
     id 'com.android.library' version '7.2.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+    id 'com.google.dagger.hilt.android' version '2.41' apply false
+
 }
+
 
 ext {
     //SDK & Tools
@@ -37,6 +40,10 @@ ext {
     rxJavaVersion = '2.2.19'
     swipeRefreshLayoutVersion = '1.1.0'
     viewPagerVersion = '1.0.0'
+
+    hiltVersion = '2.38.1'
+    lifecycleVersion = '2.2.0'
+    kotlinCoroutineVersion = '1.6.1'
 
     //Core Testing
     coreTestingLib = "android.arch.core:core-testing:$coreTestingVersion"
@@ -94,6 +101,16 @@ ext {
     recyclerViewLib = "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     swipeRefreshLayoutLib = "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
     viewPagerLib = "androidx.viewpager2:viewpager2:$viewPagerVersion"
+
+    hiltLib = "com.google.dagger:hilt-android:$hiltVersion"
+    hiltKaptLib = "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    lifecycleLib = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+
+    kotlinCoroutineVersion
+
+    kotlinCoroutinesLib = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutineVersion"
+    kotlinCoroutinesCoreLib = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutineVersion"
 }
 
 task clean(type: Delete) {

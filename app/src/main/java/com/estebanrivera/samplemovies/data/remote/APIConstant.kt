@@ -6,7 +6,7 @@ object APIConstants {
     const val BASE_API_URL = "https://gateway.marvel.com/v1/public/"
 
     const val GET_ALL_CHARACTERS = "characters"
-    const val GET_DETAILS_CHARACTER = "characters{id}"
+    const val GET_DETAILS_CHARACTER = "characters/{id}"
 
     const val PUBLIC_KEY = "4212fa6697aaa3ea248b31378a2dca65"
     const val PRIVATE_KEY = "052a3ad782f7708817a6b0e0f30812bcf195b063"
@@ -42,6 +42,12 @@ object APIConstants {
     // IMAGE
     const val KEY_IMAGE_EXTENSION = "extension"
     const val KEY_IMAGE_PATH = "path"
+
+    //
+    const val KEY_AVAILABLE = "available"
+    const val KEY_COLLECTIONS_URI = "collectionURI"
+    const val KEY_RETURNED = "returned"
+    const val KEY_ITEMS = "items"
 }
 
 /*

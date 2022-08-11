@@ -1,32 +1,31 @@
-package com.estebanrivera.samplemovies.view
+package com.estebanrivera.samplemovies.view.details
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.estebanrivera.samplemovies.domain.Character
-import com.estebanrivera.samplemovies.usecases.GetAllCharactersUseCase
+import com.estebanrivera.samplemovies.domain.CharacterDetails
+import com.estebanrivera.samplemovies.usecases.GetACharacterUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    var getAllCharactersUseCase: GetAllCharactersUseCase
+class CharacterDetailsViewModel @Inject constructor(
+    var getACharacterUseCases: GetACharacterUseCases
 ) : ViewModel() {
 
-    val characterList = MutableLiveData<List<Character>>()
+    val character = MutableLiveData<CharacterDetails>()
     val errorMessage = MutableLiveData<String>()
     val loading = MutableLiveData<Boolean>()
 
-
     var job: Job? = null
 
-    fun getAllCharacters(limit: Int,offset: Int) {
+    fun getCharacterDetail(id: String) {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = getAllCharactersUseCase.invoke(limit, offset)
+            val response = getACharacterUseCases.invoke(id)
             withContext(Dispatchers.Main) {
                 response.let {
-                    characterList.postValue(response)
+                    character.postValue(response)
                     loading.value = false
                 }
             }
