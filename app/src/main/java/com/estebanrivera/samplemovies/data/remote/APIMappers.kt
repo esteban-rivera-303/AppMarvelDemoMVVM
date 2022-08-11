@@ -3,20 +3,12 @@ package com.estebanrivera.samplemovies.data.remote
 import com.estebanrivera.samplemovies.domain.Character
 
 fun CharacterServer.toCharacterDomain(): Character {
-       return Character(
-            id,
-            name!!,
-            description!!,
-        )
+    return Character(
+        id = id,
+        name = name!!,
+        description = description!!,
+        thumbNail = with(this.thumbnail) { "$path.$extension" },
+
+    )
 }
 
-
-/*fun CharacterServer.toCharacterDomainList(): Character = results.map {
-    it.run {
-        Character(
-            id,
-            name!!,
-            description!!,
-        )
-    }
-}*/

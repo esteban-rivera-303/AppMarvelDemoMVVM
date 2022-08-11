@@ -14,6 +14,7 @@ import com.estebanrivera.samplemovies.data.remote.APIConstants.KEY_IMAGE_EXTENSI
 import com.estebanrivera.samplemovies.data.remote.APIConstants.KEY_IMAGE_PATH
 import com.estebanrivera.samplemovies.data.remote.APIConstants.KEY_NAME
 import com.estebanrivera.samplemovies.data.remote.APIConstants.KEY_STATUS
+import com.estebanrivera.samplemovies.data.remote.APIConstants.KEY_THUMBNAIL
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -45,6 +46,8 @@ data class CharacterServer(
     @SerializedName(KEY_ID) val id: Int,
     @SerializedName(KEY_NAME) val name: String?,
     @SerializedName(KEY_DESCRIPTION) val description: String?,
+    @SerializedName(KEY_THUMBNAIL) val thumbnail: Image,
+    val images: List<Image>
 
     ) : Parcelable
 
