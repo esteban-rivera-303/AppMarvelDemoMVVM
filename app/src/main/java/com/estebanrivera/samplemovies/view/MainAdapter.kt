@@ -8,7 +8,8 @@ import com.bumptech.glide.Glide
 import com.estebanrivera.samplemovies.databinding.ItemRowCharacterBinding
 import com.estebanrivera.samplemovies.domain.Character
 
-class MainAdapter constructor(var onClickCharacter: OnClickCharacter): RecyclerView.Adapter<MainViewHolder>() {
+class MainAdapter constructor(var onClickCharacter: OnClickCharacter) :
+    RecyclerView.Adapter<MainViewHolder>() {
     private var characters = mutableListOf<Character>()
 
     fun setCharactersList(characters: List<Character>) {
@@ -26,6 +27,9 @@ class MainAdapter constructor(var onClickCharacter: OnClickCharacter): RecyclerV
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val character = characters[position]
         holder.binding.name.text = character.name
+        if (character.description.isNotEmpty())
+            holder.binding.description.text = character.description
+        holder.binding.number.text = character.id.toString()
         if (character.thumbNail.isNotEmpty())
             Glide.with(holder.itemView.context).load(character.thumbNail)
                 .into(holder.binding.imageview)
