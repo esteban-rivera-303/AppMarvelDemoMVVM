@@ -1,6 +1,7 @@
 package com.estebanrivera.samplemovies.usecases
 
 import com.estebanrivera.samplemovies.data.CharacterRepository
+import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.Character
 import com.estebanrivera.samplemovies.domain.CharacterDetails
 
@@ -35,11 +36,10 @@ class GetAllCharactersUseCaseTest {
     @Test
     suspend fun `get all character use case should return a list of characters given a offset and limit`() = runBlocking<Unit>  {
         val expectedResult = listOf(mockedCharacter.copy(id = 1))
-        given(repository.getAllCharacter(any(), any())).willReturn(expectedResult)
+        given(repository.getAllCharacter(any(), any())).willReturn(ResultWrapper.Success(expectedResult))
 
         val response = getAllCharactersUseCase.invoke(1,1)
-
-        assertEquals(mockedCharacter,response)
+        assertEquals(ResultWrapper.Success(mockedCharacter),response)
 
     }
 
@@ -63,3 +63,4 @@ val mockedCharacterDetails = CharacterDetails(
     "Description",
     "thumbnail.jpg",
 )
+

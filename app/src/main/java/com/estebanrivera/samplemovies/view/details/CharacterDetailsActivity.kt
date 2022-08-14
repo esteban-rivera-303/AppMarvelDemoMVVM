@@ -1,9 +1,7 @@
 package com.estebanrivera.samplemovies.view.details
 
 
-
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -55,8 +53,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
         character.let {
             viewModel.getCharacterDetail(character.id.toString())
         }
+    }
 
-
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun initToolbar() {
@@ -65,13 +66,9 @@ class CharacterDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
 
     private fun loadData(character: CharacterDetails) {
-
+        initComponents()
         binding.description.text =
             character.description.ifEmpty { getString(R.string.description_placeholder) }
         if (character.thumbNail.isNotEmpty()) {
@@ -80,15 +77,26 @@ class CharacterDetailsActivity : AppCompatActivity() {
             viewModel.getColorDominant(this, character.thumbNail)
         }
 
-        binding.series.text = getString(R.string.series , character.series?.items?.size)
-        binding.comics.text = getString(R.string.comics , character.comics?.items?.size)
-        binding.events.text = getString(R.string.events , character.events?.items?.size)
+        binding.series.text = getString(R.string.series, character.series?.items?.size)
+        binding.comics.text = getString(R.string.comics, character.comics?.items?.size)
+        binding.events.text = getString(R.string.events, character.events?.items?.size)
 
 
     }
 
+    private fun initComponents() {
+        binding.image.visibility = View.VISIBLE
+        binding.backImage.visibility = View.VISIBLE
+        binding.cardView.visibility = View.VISIBLE
+        binding.wrapperError.visibility = View.GONE
+    }
+
     private fun showError(message: String) {
-        Log.e("Error", message)
+        binding.errorText.text = message
+        binding.image.visibility = View.GONE
+        binding.backImage.visibility = View.GONE
+        binding.cardView.visibility = View.GONE
+        binding.wrapperError.visibility = View.VISIBLE
     }
 
     private fun showLoading() {

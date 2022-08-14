@@ -1,5 +1,7 @@
 package com.estebanrivera.samplemovies.di
 
+import android.app.Application
+import android.content.Context
 import com.estebanrivera.samplemovies.data.CharacterRepository
 import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemote
 import com.estebanrivera.samplemovies.data.remote.CharacterService
@@ -10,6 +12,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context = application.applicationContext
+}
 
 @Module
 @InstallIn(SingletonComponent::class)

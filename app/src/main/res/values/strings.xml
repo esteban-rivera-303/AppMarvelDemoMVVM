@@ -2,6 +2,7 @@
     <string name="app_name">SampleMovies</string>
     <string name="header" translatable="false">MARVEL COMICS</string>
     <string name="subtitle" translatable="false">All Characters</string>
+    <string name="error_network">Hay un problema de red, verifique su conexión</string>
     <string name="error_generic">Lo sentimos no logramos cargar el contenido</string>
     <string name="description_placeholder">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</string>
     <string name="series">Series %1$s</string>

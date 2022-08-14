@@ -45,6 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="73dp"
@@ -72,6 +73,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
@@ -217,5 +219,35 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/wrapperError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.2"
+            android:src="@drawable/image_error" />
+
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/error_generic"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

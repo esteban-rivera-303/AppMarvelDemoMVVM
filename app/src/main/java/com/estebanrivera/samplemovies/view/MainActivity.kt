@@ -28,10 +28,11 @@ class MainActivity : AppCompatActivity(), OnClickCharacter {
         binding.recyclerview.adapter = adapter
 
         viewModel.characterList.observe(this, Observer {
+            binding.recyclerview.visibility = View.VISIBLE
             adapter.setCharactersList(it)
         })
         viewModel.errorMessage.observe(this, Observer {
-            showError(getString(R.string.error_generic))
+            showError(it)
         })
 
         viewModel.loading.observe(this) {
@@ -42,7 +43,9 @@ class MainActivity : AppCompatActivity(), OnClickCharacter {
 
 
     private fun showError(message: String) {
-        Log.e("Error", message)
+        binding.errorText.text = message
+        binding.wrapperError.visibility = View.VISIBLE
+        binding.recyclerview.visibility = View.GONE
     }
 
     private fun showLoading() {

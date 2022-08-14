@@ -36,7 +36,6 @@ interface CharacterService {
         @Query(TIMESTAMP) ts: String,
         @Query(APIKEY) apikey: String,
         @Query(HASH) hash: String,
-        //@Query(ID) id: String
     ): Response<BaseResponse<List<CharacterServer>>>
 
 

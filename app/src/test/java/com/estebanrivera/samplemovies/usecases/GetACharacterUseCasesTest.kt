@@ -1,6 +1,7 @@
 package com.estebanrivera.samplemovies.usecases
 
 import com.estebanrivera.samplemovies.data.CharacterRepository
+import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 
@@ -28,7 +29,7 @@ class GetACharacterUseCasesTest {
     suspend fun `get a character use case should return a only one item`()  {
 
        given(repository.getACharacterById(ArgumentMatchers.any()))
-            .willReturn(mockedCharacterDetails)
+            .willReturn(ResultWrapper.Success(mockedCharacterDetails))
 
         val response = getACharacterUseCases.invoke("1234")
 

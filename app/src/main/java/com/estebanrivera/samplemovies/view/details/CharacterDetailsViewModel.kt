@@ -2,11 +2,13 @@ package com.estebanrivera.samplemovies.view.details
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.palette.graphics.Palette
 import com.estebanrivera.samplemovies.R
+import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.CharacterDetails
 import com.estebanrivera.samplemovies.usecases.GetACharacterUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterDetailsViewModel @Inject constructor(
+    var context: Context,
     var getACharacterUseCases: GetACharacterUseCases
 ) : ViewModel() {
 
@@ -30,11 +33,16 @@ class CharacterDetailsViewModel @Inject constructor(
     fun getCharacterDetail(id: String) {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = getACharacterUseCases.invoke(id)
-            withContext(Dispatchers.Main) {
-                response.let {
-                    character.postValue(response)
 
+            when (val response = getACharacterUseCases.invoke(id)) {
+                is ResultWrapper.NetworkError -> onError(context.getString(R.string.error_network))
+                is ResultWrapper.GenericError -> onError(context.getString(R.string.error_generic))
+                is ResultWrapper.Success -> {
+                    withContext(Dispatchers.Main) {
+                        response.let {
+                            character.postValue(response.value)
+                        }
+                    }
                 }
             }
         }
