@@ -1,42 +1,37 @@
 package com.estebanrivera.samplemovies.view
 
 import android.content.Context
-import android.util.Log
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.estebanrivera.samplemovies.R
 import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.Character
 import com.estebanrivera.samplemovies.usecases.GetAllCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    var context: Context,
-    var getAllCharactersUseCase: GetAllCharactersUseCase
-) : ViewModel() {
+    private val context: Context,
+    private val getAllCharactersUseCase: GetAllCharactersUseCase
+) : ViewModel(), LifecycleObserver {
 
-    val characterList = MutableLiveData<List<Character>>()
-    val errorMessage = MutableLiveData<String>()
-    val loading = MutableLiveData<Boolean>()
-
-
-    var job: Job? = null
+    private val mainStates: MutableLiveData<State> = MutableLiveData()
+    val mainStatesLiveData: LiveData<State> get() = mainStates
 
     fun getAllCharacters(limit: Int, offset: Int) {
-        loading.value = true
-        job = CoroutineScope(Dispatchers.IO).launch {
+        mainStates.value = State.Loading
+        viewModelScope.launch {
             when (val response = getAllCharactersUseCase.invoke(limit, offset)) {
                 is ResultWrapper.NetworkError -> onError(context.getString(R.string.error_network))
                 is ResultWrapper.GenericError -> onError(context.getString(R.string.error_generic))
                 is ResultWrapper.Success -> {
-                    withContext(Dispatchers.Main) {
-                        response.let {
-                            characterList.postValue(response.value)
-                            loading.value = false
-                        }
+                    response.let {
+                        mainStates.postValue(State.OnSuccess(response.value))
                     }
                 }
             }
@@ -44,15 +39,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun onError(message: String) {
-        withContext(Dispatchers.Main) {
-            errorMessage.value = message
-            loading.value = false
-        }
+    private fun onError(message: String) {
+        mainStates.value = State.OnError(message)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
+    sealed class State {
+        object Loading: State()
+        class OnSuccess(val list: List<Character>): State()
+        class OnError(val message: String): State()
     }
 }

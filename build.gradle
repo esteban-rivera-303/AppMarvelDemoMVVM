@@ -26,9 +26,9 @@ ext {
     daggerVersion = '2.28'
     glideVersion = '4.11.0'
     gsonVersion = '2.8.6'
-    jUnitVersion = '4.13'
+    jUnitVersion = '4.12'
     materialVersion = '1.1.0'
-    mockitoKotlinInlineVersion = '3.3.3'
+    mockitoKotlinInlineVersion = '3.6.28'
     mockitoKotlinVersion = '2.2.0'
     okHttpLoggingInterceptorVersion = '4.7.2'
     pagingVersion = '2.1.2'
@@ -74,6 +74,7 @@ ext {
     //Mockito
     mockitoLib = "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     mockitoInlineLib = "org.mockito:mockito-inline:$mockitoKotlinInlineVersion"
+    mockitoCoreLib = "org.mockito:mockito-core:$mockitoKotlinInlineVersion"
 
     //OkHttp
     okHttpInterceptorLib = "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingInterceptorVersion"

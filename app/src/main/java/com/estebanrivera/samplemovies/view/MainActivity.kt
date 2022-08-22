@@ -27,22 +27,27 @@ class MainActivity : AppCompatActivity(), OnClickCharacter {
         setContentView(binding.root)
         binding.recyclerview.adapter = adapter
 
-        viewModel.characterList.observe(this, Observer {
-            binding.recyclerview.visibility = View.VISIBLE
-            adapter.setCharactersList(it)
+        viewModel.mainStatesLiveData.observe(this, Observer {
+            when(it) {
+                is MainViewModel.State.Loading -> {
+                    showLoading()
+                }
+                is MainViewModel.State.OnSuccess -> {
+                    hideLoading()
+                    binding.recyclerview.visibility = View.VISIBLE
+                    adapter.setCharactersList(it.list)
+                }
+                is MainViewModel.State.OnError -> {
+                    showError(it.message)
+                }
+            }
         })
-        viewModel.errorMessage.observe(this, Observer {
-            showError(it)
-        })
-
-        viewModel.loading.observe(this) {
-            if (it) showLoading() else hideLoading()
-        }
         viewModel.getAllCharacters(20, 0)
     }
 
 
     private fun showError(message: String) {
+        hideLoading()
         binding.errorText.text = message
         binding.wrapperError.visibility = View.VISIBLE
         binding.recyclerview.visibility = View.GONE
