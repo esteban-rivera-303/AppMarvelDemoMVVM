@@ -2,8 +2,10 @@ package com.estebanrivera.samplemovies.view
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.estebanrivera.samplemovies.R
 import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.Character
@@ -18,41 +20,31 @@ class MainViewModel @Inject constructor(
     var getAllCharactersUseCase: GetAllCharactersUseCase
 ) : ViewModel() {
 
-    val characterList = MutableLiveData<List<Character>>()
-    val errorMessage = MutableLiveData<String>()
-    val loading = MutableLiveData<Boolean>()
-
-
-    var job: Job? = null
+    private val _mainState = MutableLiveData<MainState>()
+    val mainState: LiveData<MainState> = _mainState
 
     fun getAllCharacters(limit: Int, offset: Int) {
-        loading.value = true
-        job = CoroutineScope(Dispatchers.IO).launch {
+        _mainState.value = MainState.Loading
+        viewModelScope.launch {
             when (val response = getAllCharactersUseCase.invoke(limit, offset)) {
                 is ResultWrapper.NetworkError -> onError(context.getString(R.string.error_network))
                 is ResultWrapper.GenericError -> onError(context.getString(R.string.error_generic))
                 is ResultWrapper.Success -> {
-                    withContext(Dispatchers.Main) {
-                        response.let {
-                            characterList.postValue(response.value)
-                            loading.value = false
-                        }
+                    response.value.let {
+                        _mainState.value = MainState.OnSuccess(it)
                     }
                 }
             }
-
         }
     }
 
-    private suspend fun onError(message: String) {
-        withContext(Dispatchers.Main) {
-            errorMessage.value = message
-            loading.value = false
-        }
+    private fun onError(message: String) {
+        _mainState.value = MainState.OnError(message)
     }
+}
 
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
-    }
+sealed class MainState {
+    object Loading : MainState()
+    data class OnSuccess(val data: List<Character>) : MainState()
+    data class OnError(val message: String) : MainState()
 }

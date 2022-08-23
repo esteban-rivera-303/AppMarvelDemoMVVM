@@ -22,6 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class CharacterRepositoryTest {
 
+    // /Users/esteban.rivera01/Library/Java/JavaVirtualMachines/liberica-1.8.0_345/jre
     @Mock
     private lateinit var dataSourceRemote: CharacterDataSourceRemote
 
