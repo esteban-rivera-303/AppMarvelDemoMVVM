@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.palette.graphics.Palette
 import com.estebanrivera.samplemovies.R
 import com.estebanrivera.samplemovies.data.remote.ResultWrapper
@@ -32,8 +33,7 @@ class CharacterDetailsViewModel @Inject constructor(
 
     fun getCharacterDetail(id: String) {
         loading.value = true
-        job = CoroutineScope(Dispatchers.IO).launch {
-
+        viewModelScope.launch {
             when (val response = getACharacterUseCases.invoke(id)) {
                 is ResultWrapper.NetworkError -> onError(context.getString(R.string.error_network))
                 is ResultWrapper.GenericError -> onError(context.getString(R.string.error_generic))
@@ -49,6 +49,7 @@ class CharacterDetailsViewModel @Inject constructor(
     }
 
     fun getColorDominant(context: Context, url: String) {
+
         job = CoroutineScope(Dispatchers.IO).launch {
             try {
                 val image = BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
@@ -69,7 +70,6 @@ class CharacterDetailsViewModel @Inject constructor(
                 loading.value = false
             }
         }
-
     }
 
     private fun onError(message: String) {

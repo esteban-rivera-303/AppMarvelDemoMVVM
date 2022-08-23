@@ -27,22 +27,15 @@ class MainActivity : AppCompatActivity(), OnClickCharacter {
         setContentView(binding.root)
         binding.recyclerview.adapter = adapter
 
-        viewModel.mainStatesLiveData.observe(this, Observer {
-            when(it) {
-                is MainViewModel.State.Loading -> {
-                    showLoading()
-                }
-                is MainViewModel.State.OnSuccess -> {
-                    hideLoading()
-                    binding.recyclerview.visibility = View.VISIBLE
-                    adapter.setCharactersList(it.list)
-                }
-                is MainViewModel.State.OnError -> {
-                    showError(it.message)
-                }
+        viewModel.mainState.observe(this, Observer { state ->
+            when (state) {
+                is MainState.Loading -> showLoading()
+                is MainState.OnError -> showError(state.message)
+                is MainState.OnSuccess -> showData(state.data)
             }
         })
-        viewModel.getAllCharacters(20, 0)
+
+        viewModel.getAllCharacters(50, 0)
     }
 
 
@@ -51,6 +44,12 @@ class MainActivity : AppCompatActivity(), OnClickCharacter {
         binding.errorText.text = message
         binding.wrapperError.visibility = View.VISIBLE
         binding.recyclerview.visibility = View.GONE
+    }
+
+    private fun showData(data: List<Character>) {
+        hideLoading()
+        binding.recyclerview.visibility = View.VISIBLE
+        adapter.setCharactersList(data)
     }
 
     private fun showLoading() {
