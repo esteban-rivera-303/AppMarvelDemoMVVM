@@ -58,11 +58,6 @@ android {
     buildFeatures {
         viewBinding true
     }
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {
@@ -114,4 +109,5 @@ dependencies {
     testImplementation jUnitLib
     testImplementation mockitoLib
     testImplementation mockitoInlineLib
+    testImplementation mockitoCoreLib
 }

@@ -1,6 +1,7 @@
 package com.estebanrivera.samplemovies.view
 
 import android.content.Context
+import androidx.lifecycle.LifecycleObserver
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,14 +12,14 @@ import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.Character
 import com.estebanrivera.samplemovies.usecases.GetAllCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    var context: Context,
-    var getAllCharactersUseCase: GetAllCharactersUseCase
-) : ViewModel() {
+    private val context: Context,
+    private val getAllCharactersUseCase: GetAllCharactersUseCase
+) : ViewModel(), LifecycleObserver {
 
     private val _mainState = MutableLiveData<MainState>()
     val mainState: LiveData<MainState> = _mainState
