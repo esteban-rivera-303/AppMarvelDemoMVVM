@@ -45,22 +45,3 @@ object APIConstants {
     const val KEY_RETURNED = "returned"
     const val KEY_ITEMS = "items"
 }
-
-/*
-
-Authentication for Client-Side Applications
-Requests from client-side (browser-based) applications must originate from a pre-authorized web site or browser extension URL.
-
-You may add or edit your authorized domains in your API account panel. You may use the “*” wildcard to denote subdomains or paths. For example:
-
-marvel.com - will authorize requests from Marvel.com but no subdomains of Marvel.com
-developer.marvel.com - will authorize requests from developer.marvel.com
-*.marvel.com - will authorize requests from any Marvel.com subdomain as well as Marvel.com
-*.marvel.com/apigateway - will authorize requests from the apigateway path on any Marvel.com subdomain as well as Marvel.com
-Authentication for Server-Side Applications
-Server-side applications must pass two parameters in addition to the apikey parameter:
-
-ts - a timestamp (or other long string which can change on a request-by-request basis)
-hash - a md5 digest of the ts parameter, your private key and your public key (e.g. md5(ts+privateKey+publicKey)
-For example, a user with a public key of "1234" and a private key of "abcd" could construct a valid call as follows: http://gateway.marvel.com/v1/public/comics?ts=1&apikey=1234&hash=ffd275c5130566a2916217b101f26150 (the hash value is the md5 digest of 1abcd1234)
- */

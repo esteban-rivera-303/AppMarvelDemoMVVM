@@ -1,6 +1,6 @@
 package com.estebanrivera.samplemovies.data
 
-import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemote
+import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemoteImpl
 import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.usecases.mockedCharacterDetails
 import com.nhaarman.mockitokotlin2.verify
@@ -20,7 +20,7 @@ class CharacterRepositoryTest {
 
     // /Users/esteban.rivera01/Library/Java/JavaVirtualMachines/liberica-1.8.0_345/jre
     @Mock
-    private lateinit var dataSourceRemote: CharacterDataSourceRemote
+    private lateinit var dataSourceRemote: CharacterDataSourceRemoteImpl
 
     private lateinit var repository: CharacterRepository
 

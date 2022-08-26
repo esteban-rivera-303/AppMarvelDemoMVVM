@@ -30,29 +30,42 @@ class CharacterDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
         initToolbar()
 
-        character = intent.getParcelableExtra<Character>(BUNDLE_CHARACTER)!!
-        binding.name.text = character.name
+        character = intent.getParcelableExtra(BUNDLE_CHARACTER)!!
 
-        viewModel.character.observe(this) {
-            loadData(it)
+        binding.name.text = character.name
+        binding.characterFavorite.setOnClickListener { viewModel.onUpdateFavoriteCharacterStatus() }
+
+        character.let {
+            viewModel.getCharacterDetail(character.id.toString())
         }
 
-        viewModel.errorMessage.observe(this, Observer {
-            showError(getString(R.string.error_generic))
+        viewModel.detailState.observe(this, Observer { state ->
+            when (state) {
+                DetailState.Loading -> showLoading()
+                is DetailState.OnError -> showError(state.message)
+                is DetailState.OnSuccess -> loadData(state.data)
+            }
         })
 
-        viewModel.loading.observe(this) {
-            if (it) showLoading() else hideLoading()
-        }
+        viewModel.isFavorite.observe(this, Observer(this::updateFavoriteIcon))
 
         viewModel.colorDominant.observe(this) {
             binding.background.setBackgroundColor(it)
             binding.toolbar.setBackgroundColor(it)
         }
 
-        character.let {
-            viewModel.getCharacterDetail(character.id.toString())
-        }
+        viewModel.onCharacterValidation(character.id)
+
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean?) {
+        binding.characterFavorite.setImageResource(
+            if (isFavorite != null && isFavorite) {
+                R.drawable.ic_favorite
+            } else {
+                R.drawable.ic_favorite_border
+            }
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -69,6 +82,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     private fun loadData(character: CharacterDetails) {
         initComponents()
+        hideLoading()
         binding.description.text =
             character.description.ifEmpty { getString(R.string.description_placeholder) }
         if (character.thumbNail.isNotEmpty()) {
@@ -80,8 +94,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
         binding.series.text = getString(R.string.series, character.series?.items?.size)
         binding.comics.text = getString(R.string.comics, character.comics?.items?.size)
         binding.events.text = getString(R.string.events, character.events?.items?.size)
-
-
     }
 
     private fun initComponents() {
@@ -92,6 +104,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     }
 
     private fun showError(message: String) {
+        hideLoading()
         binding.errorText.text = message
         binding.image.visibility = View.GONE
         binding.backImage.visibility = View.GONE
@@ -108,5 +121,4 @@ class CharacterDetailsActivity : AppCompatActivity() {
         binding.progress.visibility = View.GONE
         binding.wrapperProgress.visibility = View.GONE
     }
-
 }

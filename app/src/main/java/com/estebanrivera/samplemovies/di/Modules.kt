@@ -3,7 +3,11 @@ package com.estebanrivera.samplemovies.di
 import android.app.Application
 import android.content.Context
 import com.estebanrivera.samplemovies.data.CharacterRepository
+import com.estebanrivera.samplemovies.data.local.CharacterDataSourceLocal
+import com.estebanrivera.samplemovies.data.local.CharacterDataSourceLocalImpl
+import com.estebanrivera.samplemovies.data.local.CharacterDatabase
 import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemote
+import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemoteImpl
 import com.estebanrivera.samplemovies.data.remote.CharacterService
 import com.estebanrivera.samplemovies.usecases.GetAllCharactersUseCase
 import dagger.Module
@@ -37,9 +41,11 @@ object UsesCasesModule {
 object RepositoryModule {
     @Provides
     fun provideCharacterRepository(
-        dataSource: CharacterDataSourceRemote
+        remoteImpl: CharacterDataSourceRemoteImpl,
+        localImpl: CharacterDataSourceLocalImpl
+
     ): CharacterRepository {
-        return CharacterRepository(dataSource)
+        return CharacterRepository(remoteImpl, localImpl)
     }
 }
 
@@ -56,11 +62,25 @@ object NetworkModule {
 
 
     @Provides
-    fun provideDataSourceRemote(
+    fun provideCharacterDataSourceRemote(
         service: CharacterService
-    ): CharacterDataSourceRemote {
-        return CharacterDataSourceRemote(service)
+    ): CharacterDataSourceRemoteImpl {
+        return CharacterDataSourceRemoteImpl(service)
     }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class DatabaseModule {
+
+    @Provides
+    @Singleton
+    fun provideDataBase(app: Application): CharacterDatabase = CharacterDatabase.getDatabase(app)
+
+    @Provides
+    fun provideCharacterDataSourceLocal(
+        database: CharacterDatabase
+    ): CharacterDataSourceLocal = CharacterDataSourceLocalImpl(database)
 }
 
 

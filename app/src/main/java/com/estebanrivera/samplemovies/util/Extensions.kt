@@ -3,7 +3,7 @@ package com.estebanrivera.samplemovies.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemote
+import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemoteImpl
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -12,7 +12,7 @@ inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit)
     startActivity(Intent(this, T::class.java).apply(body))
 }
 
-fun CharacterDataSourceRemote.toHash(
+fun CharacterDataSourceRemoteImpl.toHash(
     timeStamp: String,
     publicKey: String,
     privateKey: String
@@ -27,5 +27,5 @@ fun CharacterDataSourceRemote.toHash(
     return md5
 }
 
-fun CharacterDataSourceRemote.getTimestamp(): String =
+fun CharacterDataSourceRemoteImpl.getTimestamp(): String =
     System.currentTimeMillis().run { "$this" }
