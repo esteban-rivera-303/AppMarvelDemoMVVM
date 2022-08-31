@@ -8,6 +8,7 @@ import com.estebanrivera.samplemovies.util.Constants.ID
 import com.estebanrivera.samplemovies.util.Constants.LIMIT
 import com.estebanrivera.samplemovies.util.Constants.OFFSET
 import com.estebanrivera.samplemovies.util.Constants.TIMESTAMP
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,6 +38,14 @@ interface CharacterService {
         @Query(APIKEY) apikey: String,
         @Query(HASH) hash: String,
     ): Response<BaseResponse<List<CharacterServer>>>
+
+    @GET(GET_DETAILS_CHARACTER)
+    fun getCharacterByIdDeferred(
+        @Path(ID) id: String,
+        @Query(TIMESTAMP) ts: String,
+        @Query(APIKEY) apikey: String,
+        @Query(HASH) hash: String,
+    ): Deferred<Response<BaseResponse<List<CharacterServer>>>>
 
 
     companion object {

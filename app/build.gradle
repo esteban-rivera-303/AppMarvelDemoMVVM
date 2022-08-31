@@ -95,18 +95,11 @@ dependencies {
 
 
     // Room components
-    /*def room_version = "2.4.0-alpha03"//"2.4.3"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version" */
-
     implementation roomLib
-    implementation roomRxJavaLib
+    implementation roomCoroutines
     annotationProcessor roomCompiler
+    kapt roomCompiler
 
-    kapt "androidx.room:room-compiler:$roomVersion"
-
-    
 
     //Testing
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

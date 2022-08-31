@@ -87,7 +87,7 @@ class CharacterDetailsViewModel @Inject constructor(
     }
 
     fun onUpdateFavoriteCharacterStatus() {
-        characterDetails.value.let {
+        /*characterDetails.value.let {
             disposable.add(
                 updateFavoriteCharacterStatusUseCase
                     .invoke(it!!)
@@ -97,6 +97,11 @@ class CharacterDetailsViewModel @Inject constructor(
                         _isFavorite.value = isFavorite
                     }
             )
+        } */
+        characterDetails.value.let {
+            viewModelScope.launch {
+                _isFavorite.value = updateFavoriteCharacterStatusUseCase.invoke(it!!)
+            }
         }
     }
 
@@ -106,13 +111,19 @@ class CharacterDetailsViewModel @Inject constructor(
 
     // Private methods
     private fun validateFavoriteCharacterStatus(characterId: Int) {
-        disposable.add(
+        /*disposable.add(
             getFavoriteCharacterStatusUseCase
                 .invoke(characterId)
                 .subscribe { isFavorite ->
                     _isFavorite.value = isFavorite
                 }
-        )
+        )*/
+
+        viewModelScope.launch {
+            //val isFavorite =
+            _isFavorite.value = getFavoriteCharacterStatusUseCase.invoke(characterId)
+        }
+
     }
 
     private fun onError(message: String) {

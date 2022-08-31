@@ -24,18 +24,17 @@ class GetACharacterUseCases @Inject constructor(
 class GetFavoriteCharacterStatusUseCase @Inject constructor(
     private val characterRepository: CharacterRepository
 ) {
-
-    fun invoke(characterId: Int): Maybe<Boolean> =
-        characterRepository.getFavoriteCharacterStatus(characterId)
+    suspend fun invoke(characterId: Int): Boolean =
+       characterRepository.getFavoriteCharacterStatus(characterId)
 }
 
 class UpdateFavoriteCharacterStatusUseCase @Inject constructor(
     private val characterRepository: CharacterRepository
 ) {
-
-    fun invoke(character: Character): Maybe<Boolean> =
+    suspend fun invoke(character: Character): Boolean =
         characterRepository.updateFavoriteCharacterStatus(character)
 
-    fun invoke(character: CharacterDetails): Maybe<Boolean> =
+    suspend fun invoke(character: CharacterDetails): Boolean =
+
         characterRepository.updateFavoriteCharacterStatus(character)
 }

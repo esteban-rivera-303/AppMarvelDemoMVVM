@@ -35,7 +35,8 @@ ext {
     reactiveStreamsVersion = '2.2.0'
     recyclerViewVersion = '1.1.0'
     retrofitVersion = '2.9.0'
-    roomVersion = '2.4.0-alpha03'
+    roomVersion = '2.3.0'//'2.4.0-alpha03'
+    roomCoroutinesVersion = '2.3.0'//'2.1.0-alpha04'
     rxAndroidVersion = '2.1.1'
     rxJavaVersion = '2.2.19'
     swipeRefreshLayoutVersion = '1.1.0'
@@ -87,10 +88,10 @@ ext {
     retrofitRxJavaLib = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     //Room
-    roomCompiler = "androidx.room:room-compiler:$roomVersion"
     roomLib = "androidx.room:room-runtime:$roomVersion"
+    roomCompiler = "androidx.room:room-compiler:$roomVersion"
     roomRxJavaLib = "androidx.room:room-rxjava2:$roomVersion"
-
+    roomCoroutines = "androidx.room:room-ktx:$roomVersion"
 
     //Rx
     rxAndroidLib = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
