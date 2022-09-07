@@ -88,7 +88,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         if (character.thumbNail.isNotEmpty()) {
             Glide.with(this).load(character.thumbNail)
                 .into(binding.image)
-            viewModel.getColorDominant(this, character.thumbNail)
+            viewModel.getColorDominant(character.id, character.thumbNail)
         }
 
         binding.series.text = getString(R.string.series, character.series?.items?.size)

@@ -2,6 +2,7 @@ package com.estebanrivera.samplemovies.data.local
 
 import com.estebanrivera.samplemovies.domain.Character
 import com.estebanrivera.samplemovies.domain.CharacterDetails
+import com.estebanrivera.samplemovies.domain.ColorCharacter
 
 fun CharacterEntity.toCharacterDomain(): Character {
     return Character(
@@ -24,4 +25,9 @@ fun CharacterDetails.toCharacterEntity() = CharacterEntity(
     name,
     description,
     thumbNail
+)
+
+fun ColorCharacter.toColorCharacterEntity() = ColorCharacterEntity(
+    id,
+    color,
 )

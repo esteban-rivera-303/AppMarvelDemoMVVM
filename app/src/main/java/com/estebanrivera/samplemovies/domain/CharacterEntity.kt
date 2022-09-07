@@ -1,6 +1,8 @@
 package com.estebanrivera.samplemovies.domain
 
 import android.os.Parcelable
+import com.estebanrivera.samplemovies.data.remote.StoriesServer
+import com.estebanrivera.samplemovies.data.remote.toItemsDomain
 
 
 import kotlinx.android.parcel.Parcelize
@@ -26,6 +28,10 @@ data class CharacterDetails(
 
 )
 
+data class ColorCharacter(
+    val id: Int,
+    val color: Int,
+)
 
 data class Image(
     val path: String,
@@ -67,4 +73,5 @@ data class Events(
     var items: List<Items> = arrayListOf(),
     var returned: Int? = null
 )
+
 

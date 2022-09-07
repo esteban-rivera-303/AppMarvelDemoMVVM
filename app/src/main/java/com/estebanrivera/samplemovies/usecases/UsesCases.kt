@@ -4,6 +4,7 @@ import com.estebanrivera.samplemovies.data.CharacterRepository
 import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.Character
 import com.estebanrivera.samplemovies.domain.CharacterDetails
+import com.estebanrivera.samplemovies.domain.ColorCharacter
 import io.reactivex.Maybe
 import javax.inject.Inject
 
@@ -18,6 +19,12 @@ class GetACharacterUseCases @Inject constructor(
     private val characterRepository: CharacterRepository
 ) {
     suspend fun invoke(id: String): ResultWrapper<CharacterDetails> = characterRepository.getACharacterById(id)
+}
+
+class GetAColorPredominantCharacter @Inject constructor(
+    private val characterRepository: CharacterRepository
+) {
+    suspend fun invoke(id:Int ,url :String): ColorCharacter = characterRepository.getAColorCharacterById(id,url)
 }
 
 

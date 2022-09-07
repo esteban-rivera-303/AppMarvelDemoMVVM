@@ -14,6 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 
@@ -63,9 +64,10 @@ object NetworkModule {
 
     @Provides
     fun provideCharacterDataSourceRemote(
-        service: CharacterService
+        service: CharacterService,
+        context: Context
     ): CharacterDataSourceRemoteImpl {
-        return CharacterDataSourceRemoteImpl(service)
+        return CharacterDataSourceRemoteImpl(service, Dispatchers.IO, context)
     }
 }
 

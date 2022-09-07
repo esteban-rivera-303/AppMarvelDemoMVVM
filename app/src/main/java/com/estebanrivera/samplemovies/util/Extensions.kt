@@ -3,8 +3,12 @@ package com.estebanrivera.samplemovies.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.estebanrivera.samplemovies.data.remote.CharacterDataSourceRemoteImpl
+import java.io.IOException
 import java.math.BigInteger
+import java.net.URL
 import java.security.MessageDigest
 
 
@@ -29,3 +33,13 @@ fun CharacterDataSourceRemoteImpl.toHash(
 
 fun CharacterDataSourceRemoteImpl.getTimestamp(): String =
     System.currentTimeMillis().run { "$this" }
+
+
+// extension function to get bitmap from url
+fun URL.toBitmap(): Bitmap? {
+    return try {
+        BitmapFactory.decodeStream(openStream())
+    } catch (e: IOException) {
+        null
+    }
+}

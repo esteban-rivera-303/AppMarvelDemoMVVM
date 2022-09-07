@@ -12,6 +12,7 @@ import com.estebanrivera.samplemovies.R
 import com.estebanrivera.samplemovies.data.remote.ResultWrapper
 import com.estebanrivera.samplemovies.domain.CharacterDetails
 import com.estebanrivera.samplemovies.usecases.GetACharacterUseCases
+import com.estebanrivera.samplemovies.usecases.GetAColorPredominantCharacter
 import com.estebanrivera.samplemovies.usecases.GetFavoriteCharacterStatusUseCase
 import com.estebanrivera.samplemovies.usecases.UpdateFavoriteCharacterStatusUseCase
 import com.estebanrivera.samplemovies.view.MainState
@@ -29,7 +30,8 @@ class CharacterDetailsViewModel @Inject constructor(
     var context: Context,
     private val getACharacterUseCases: GetACharacterUseCases,
     private val getFavoriteCharacterStatusUseCase: GetFavoriteCharacterStatusUseCase,
-    private val updateFavoriteCharacterStatusUseCase: UpdateFavoriteCharacterStatusUseCase
+    private val updateFavoriteCharacterStatusUseCase: UpdateFavoriteCharacterStatusUseCase,
+    private val getAColorPredominantCharacter: GetAColorPredominantCharacter
 ) : ViewModel() {
 
 
@@ -64,40 +66,16 @@ class CharacterDetailsViewModel @Inject constructor(
         }
     }
 
-    fun getColorDominant(context: Context, url: String) {
+    fun getColorDominant(id: Int, url: String) {
 
-        job = CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val image = BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
-                Palette.Builder(image).generate {
-                    it?.let { palette ->
-                        val dominantColor = palette.getDominantColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.primary
-                            )
-                        )
-                        colorDominant.postValue(dominantColor)
-                    }
-                }
-            } catch (e: IOException) {
-                println(e)
-            }
+        viewModelScope.launch {
+            val response = getAColorPredominantCharacter.invoke(id, url)
+            colorDominant.postValue(response.color)
         }
     }
 
     fun onUpdateFavoriteCharacterStatus() {
-        /*characterDetails.value.let {
-            disposable.add(
-                updateFavoriteCharacterStatusUseCase
-                    .invoke(it!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe { isFavorite ->
-                        _isFavorite.value = isFavorite
-                    }
-            )
-        } */
+
         characterDetails.value.let {
             viewModelScope.launch {
                 _isFavorite.value = updateFavoriteCharacterStatusUseCase.invoke(it!!)
@@ -111,13 +89,6 @@ class CharacterDetailsViewModel @Inject constructor(
 
     // Private methods
     private fun validateFavoriteCharacterStatus(characterId: Int) {
-        /*disposable.add(
-            getFavoriteCharacterStatusUseCase
-                .invoke(characterId)
-                .subscribe { isFavorite ->
-                    _isFavorite.value = isFavorite
-                }
-        )*/
 
         viewModelScope.launch {
             //val isFavorite =
